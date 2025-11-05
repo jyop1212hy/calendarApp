@@ -1,19 +1,13 @@
 package com.calendarapp.service;
 
-import com.calendarapp.dto.CreateCalenderRequest;
-import com.calendarapp.dto.CalenderResponse;
-import com.calendarapp.dto.GetAllCalenderResponse;
-import com.calendarapp.dto.GetSingleCalenderResponse;
+import com.calendarapp.dto.*;
 import com.calendarapp.entity.Calender;
 import com.calendarapp.repository.CalenderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
@@ -86,4 +80,31 @@ public class CalenderService {
         .toList();
         return responses;
     }
+
+    //일정 수정
+    @Transactional
+    public ModifyCalenderResponse modifyCalender(Long id, ModifyCalenderRequest request) {
+        //수정할 일정 찾기
+        Calender calender = calenderRepository.findById(id).orElseThrow(
+                () -> new IllegalStateException("해당 ID의 일정이 없습니다."));
+
+        //비밀번호 인증
+        if (request.getPassword() == null || calender.getPassword() == null ||
+                !calender.getPassword().equals(request.getPassword())) {
+            throw new IllegalStateException("누구냐 넌?");
+        }
+
+        //제목, 작성자명 수정
+        calender.modifyCalender(request.getTitle(), request.getAuthorName());
+
+        //수정 후 데이터베이스 갱신
+        return new ModifyCalenderResponse(
+                calender.getId(),
+                calender.getTitle(),
+                calender.getDetail(),
+                calender.getAuthorName(),
+                calender.getCreatedAt(),
+                calender.getModifiedAt());
+    }
+
 }

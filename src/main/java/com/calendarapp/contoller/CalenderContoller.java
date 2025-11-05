@@ -1,12 +1,8 @@
 package com.calendarapp.contoller;
 
-import com.calendarapp.dto.CalenderResponse;
-import com.calendarapp.dto.CreateCalenderRequest;
-import com.calendarapp.dto.GetAllCalenderResponse;
-import com.calendarapp.dto.GetSingleCalenderResponse;
+import com.calendarapp.dto.*;
 import com.calendarapp.service.CalenderService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,5 +33,13 @@ public class CalenderContoller {
     public List<GetAllCalenderResponse> getAllCalender(
             @RequestParam(required = false) String authorName) {
         return calenderService.getAll(authorName);
+    }
+
+    //일정 수정
+    @PatchMapping("/{id}")
+    public ModifyCalenderResponse modifyCalenderRequest(
+            @PathVariable Long id,
+            @RequestBody ModifyCalenderRequest request) {
+        return calenderService.modifyCalender(id, request);
     }
 }

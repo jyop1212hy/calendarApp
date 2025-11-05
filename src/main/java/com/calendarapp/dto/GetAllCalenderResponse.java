@@ -7,12 +7,12 @@ import java.time.LocalDateTime;
 @Getter
 public class GetAllCalenderResponse {
 
-    private Long id;
-    private String title;
-    private String detail;
-    private String authorName;
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
+    private final Long id;
+    private final String title;
+    private final String detail;
+    private final String authorName;
+    private final LocalDateTime createdAt;
+    private final LocalDateTime modifiedAt;
 
     public GetAllCalenderResponse(Long id, String title, String detail, String authorName, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.id = id;

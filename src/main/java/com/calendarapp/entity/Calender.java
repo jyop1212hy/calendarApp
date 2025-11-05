@@ -46,4 +46,10 @@ public class Calender extends BaseEntity {
         this.authorName = authorName;
         this.password = password;
     }
+
+    //일정 수정 기능
+    public void modifyCalender(String title, String authorName) {
+        this.title = title;
+        this.authorName = authorName;
+    }
 }

@@ -1,23 +1,19 @@
 package com.calendarapp.dto;
 
-import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class CreateCalenderRequest {
+public class ModifyCalenderRequest {
 
     private String title;
-    private String detail;
     private String authorName;
     private String password;
 
-    public CreateCalenderRequest(String title, String detail, String authorName, String password) {
+    public ModifyCalenderRequest(String title, String authorName, String password){
         this.title = title;
-        this.detail = detail;
         this.authorName = authorName;
         this.password = password;
     }
-
 }
