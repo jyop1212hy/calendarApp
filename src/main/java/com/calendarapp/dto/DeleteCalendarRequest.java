@@ -3,9 +3,9 @@ package com.calendarapp.dto;
 import lombok.Getter;
 
 @Getter
-public class DeleteCalenderRequest {
+public class DeleteCalendarRequest {
 
-    public DeleteCalenderRequest(String password) {
+    public DeleteCalendarRequest(String password) {
         this.password = password;
     }
     private String password;

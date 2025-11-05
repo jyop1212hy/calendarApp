@@ -5,19 +5,16 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-
-public class ModifyCalenderResponse {
+public class CommentResponse {
     private final Long id;
-    private final String title;
-    private final String detail;
+    private final String comment;
     private final String authorName;
     private final LocalDateTime createdAt;
     private final LocalDateTime modifiedAt;
 
-    public ModifyCalenderResponse(Long id, String title, String detail, String authorName, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+    public CommentResponse(Long id, String comment, String authorName, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.id = id;
-        this.title = title;
-        this.detail = detail;
+        this.comment = comment;
         this.authorName = authorName;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;

@@ -6,12 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Entity
-@Table(name = "calenders")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "calendars")
 @EntityListeners(AuditingEntityListener.class)
-public class Calender extends BaseEntity {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Calendar extends BaseEntity {
 
     //속성
     //고유 식별ID
@@ -35,8 +38,12 @@ public class Calender extends BaseEntity {
     @Column(length = 20, nullable = false)
     private String password;
 
+    //댓글 리스트 추가
+    @OneToMany(mappedBy = "calendar", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
+
     //생성자
-    public Calender(String title, String detail, String authorName, String password) {
+    public Calendar(String title, String detail, String authorName, String password) {
         this.title = title;
         this.detail = detail;
         this.authorName = authorName;

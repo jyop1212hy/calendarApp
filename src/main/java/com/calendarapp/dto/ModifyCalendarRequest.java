@@ -3,9 +3,9 @@ package com.calendarapp.dto;
 import lombok.Getter;
 
 @Getter
-public class ModifyCalenderRequest {
+public class ModifyCalendarRequest {
 
-    public ModifyCalenderRequest(String title, String authorName, String password) {
+    public ModifyCalendarRequest(String title, String authorName, String password) {
         this.title = title;
         this.authorName = authorName;
         this.password = password;
