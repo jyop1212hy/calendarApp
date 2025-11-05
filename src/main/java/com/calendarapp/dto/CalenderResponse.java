@@ -1,6 +1,5 @@
 package com.calendarapp.dto;
 
-import com.calendarapp.entity.Calender;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

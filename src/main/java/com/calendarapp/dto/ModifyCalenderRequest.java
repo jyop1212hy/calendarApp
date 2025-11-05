@@ -1,13 +1,15 @@
 package com.calendarapp.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
 public class ModifyCalenderRequest {
+
+    public ModifyCalenderRequest(String title, String authorName, String password) {
+        this.title = title;
+        this.authorName = authorName;
+        this.password = password;
+    }
 
     private String title;
     private String authorName;
