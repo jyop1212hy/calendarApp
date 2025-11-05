@@ -89,8 +89,7 @@ public class CalenderService {
                 () -> new IllegalStateException("해당 ID의 일정이 없습니다."));
 
         //비밀번호 인증
-        if (request.getPassword() == null || calender.getPassword() == null ||
-                !calender.getPassword().equals(request.getPassword())) {
+        if (!calender.getPassword().equals(request.getPassword())) {
             throw new IllegalStateException("누구냐 넌?");
         }
 
