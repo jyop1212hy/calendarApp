@@ -19,7 +19,7 @@ public class CalenderService {
 
     //일정 생성
     @Transactional
-    public CalenderResponse createCalendar(CreateCalenderRequest request) {
+    public CreateCalenderResponse createCalendar(CreateCalenderRequest request) {
         Calender calender = new Calender(
                 request.getTitle(),
                 request.getDetail(),
@@ -28,7 +28,7 @@ public class CalenderService {
         );
 
         Calender saved = calenderRepository.save(calender);
-        return new CalenderResponse(
+        return new CreateCalenderResponse(
                 saved.getId(),
                 saved.getTitle(),
                 saved.getDetail(),

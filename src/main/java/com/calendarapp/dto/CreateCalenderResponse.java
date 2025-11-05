@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class CalenderResponse {
+public class CreateCalenderResponse {
 
     private Long id;
     private String title;
@@ -14,7 +14,7 @@ public class CalenderResponse {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-    public CalenderResponse(Long id, String title, String detail, String authorName, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+    public CreateCalenderResponse(Long id, String title, String detail, String authorName, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.id = id;
         this.title = title;
         this.detail = detail;

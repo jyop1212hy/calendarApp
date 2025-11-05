@@ -18,7 +18,7 @@ public class CalenderContoller {
 
     //일정 생성
     @PostMapping("/create")
-    public CalenderResponse createCalender(@RequestBody CreateCalenderRequest request) {
+    public CreateCalenderResponse createCalender(@RequestBody CreateCalenderRequest request) {
         return calenderService.createCalendar(request);
     }
 
