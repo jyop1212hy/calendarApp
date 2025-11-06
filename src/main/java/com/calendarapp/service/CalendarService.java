@@ -2,6 +2,7 @@ package com.calendarapp.service;
 
 import com.calendarapp.dto.*;
 import com.calendarapp.entity.Calendar;
+import com.calendarapp.entity.Comment;
 import com.calendarapp.repository.CalendarRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -41,9 +43,18 @@ public class CalendarService {
     //단건 조회
     @Transactional(readOnly = true)
     public GetSingleCalendarResponse getCalendarById(Long id) {
-        Calendar calendar = calendarRepository.findById(id).orElseThrow(
-                () -> new IllegalStateException("해당 ID의 일정이 존재하지 않습니다.")
+        Calendar calendar = calendarRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("해당 ID의 일정이 존재하지 않습니다.")
         );
+        List<CommentResponse> commentResponses = calendar.getComments().stream()
+                .map(commentList ->new CommentResponse(
+                commentList.getId(),
+                commentList.getComment(),
+                commentList.getAuthorName(),
+                commentList.getCreatedAt(),
+                commentList.getModifiedAt()
+                ))
+                .toList();
 
         return new GetSingleCalendarResponse(
                 calendar.getId(),
@@ -51,7 +62,8 @@ public class CalendarService {
                 calendar.getDetail(),
                 calendar.getAuthorName(),
                 calendar.getCreatedAt(),
-                calendar.getModifiedAt()
+                calendar.getModifiedAt(),
+                commentResponses
         );
     }
 

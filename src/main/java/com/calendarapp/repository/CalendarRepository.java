@@ -11,4 +11,6 @@ public interface CalendarRepository extends JpaRepository<Calendar, Long> {
 
     // 특정 작성자 일정만: 수정일 기준 내림차순 정렬
     List<Calendar> findAllByAuthorNameOrderByModifiedAtDesc(String authorName);
+
+
 }
