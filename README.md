@@ -383,37 +383,9 @@ erDiagram
 }
 
  ```
----
 
 ---
 
-## 🧠 기술 설계 개요
-
-### 🔹 3-Layer Architecture
-
-```
-Controller → Service → Repository
-```
-
-* **Controller** : 요청/응답 처리
-* **Service** : 트랜잭션, 비즈니스 로직
-* **Repository** : DB 접근 (JPA)
-
----
-
-### 🧩 DTO 구조
-
-* Request DTO: 클라이언트 요청 데이터 수신
-* Response DTO: 비밀번호 제거 후 응답
-
-```java
-@Getter
-public class DeleteCalendarRequest {
-    private String password;
-}
-```
-
----
 # 🧾댓글 생성(POST)
 
 ### 1\. 🔍 API 개요 (Overview)
@@ -472,76 +444,28 @@ public class DeleteCalendarRequest {
 }
 
  ```
----
 
-### 🔒 비밀번호 검증 로직
-
-```java
-if (!calendar.getPassword().equals(request.getPassword())) {
-    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "누구냐 넌!");
-}
-```
 
 ---
 
-### 🚀 Fetch Join (N+1 문제 해결)
 
-```java
-@Query("SELECT c FROM Calendar c LEFT JOIN FETCH c.comments WHERE c.id = :id")
-Optional<Calendar> findByIdWithComments(@Param("id") Long id);
-```
+## 🧠 기술 설계 개요
 
-> 댓글이 많은 일정 조회 시에도 쿼리 1번으로 모든 데이터를 가져옵니다.
-
----
-
-### 🧭 Auditing 자동화
-
-`BaseEntity.java`
-
-```java
-@CreatedDate
-@Column(updatable = false)
-private LocalDateTime createdAt;
-
-@LastModifiedDate
-private LocalDateTime modifiedAt;
-```
-
-> 생성/수정 시간이 자동 기록됩니다.
-
----
-
-## 🧾 예외 처리
-
-| 상황        | HTTP 코드           | 메시지                            |
-| --------- | ----------------- | ------------------------------ |
-| 일정 ID 없음  | `404 NOT_FOUND`   | 해당 ID의 일정이 없습니다.               |
-| 비밀번호 불일치  | `403 FORBIDDEN`   | 누구냐 넌!                         |
-| 댓글 10개 초과 | `400 BAD_REQUEST` | 일정 1개당 댓글은 최대 10개까지만 등록 가능합니다. |
-
----
-
-## 🧰 실행 방법
-
-```bash
-# 1️⃣ MySQL 실행 후 DB 생성
-CREATE DATABASE calendars CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
-# 2️⃣ application.properties 설정
-spring.datasource.url=jdbc:mysql://localhost:3306/calendars?serverTimezone=Asia/Seoul
-spring.datasource.username=root
-spring.datasource.password=12345678
-
-# 3️⃣ 실행
-./gradlew bootRun
-```
-
----
-
-## 🧩 프로젝트 구조
+### 🔹 3-Layer Architecture
 
 ```
+Controller → Service → Repository
+```
+
+* **Controller** : 요청/응답 처리
+* **Service** : 트랜잭션, 비즈니스 로직
+* **Repository** : DB 접근 (JPA)
+
+
+---
+
+
+### 🧩 프로젝트 구조
 src/main/java/com/calendarapp
  ┣ 📂 controller
  ┃ ┗ CalendarController.java
@@ -558,22 +482,105 @@ src/main/java/com/calendarapp
  ┣ 📂 dto
  ┃ ┣ Create / Modify / Delete / Get / Comment DTOs
  ┗ CalendarAppApplication.java
-```
+
 
 ---
+
+
+### 🧩 DTO 구조
+
+* Request DTO: 클라이언트 요청 데이터 수신
+* Response DTO: 비밀번호 제거 후 응답
+
+```java
+@Getter
+public class DeleteCalendarRequest {
+    private String password;
+}
+```
+
+
+---
+
+
+## 🧰 실행 방법
+
+```bash
+# 1️⃣ MySQL 실행 후 DB 생성
+CREATE DATABASE calendars CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+# 2️⃣ application.properties 설정
+spring.datasource.url=jdbc:mysql://localhost:3306/calendars?serverTimezone=Asia/Seoul
+spring.datasource.username=root
+spring.datasource.password=12345678
+
+# 3️⃣ 실행
+./gradlew bootRun
+```
+
+
+---
+
+
+### 🔒 비밀번호 검증 로직
+
+```java
+if (!calendar.getPassword().equals(request.getPassword())) {
+    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "누구냐 넌!");
+}
+```
+
+
+---
+
+
+### 🚀 Fetch Join (N+1 문제 해결)
+
+```java
+@Query("SELECT c FROM Calendar c LEFT JOIN FETCH c.comments WHERE c.id = :id")
+Optional<Calendar> findByIdWithComments(@Param("id") Long id);
+```
+
+> 댓글이 많은 일정 조회 시에도 쿼리 1번으로 모든 데이터를 가져옵니다.
+
+
+---
+
+
+### 🧭 Auditing 자동화
+
+`BaseEntity.java`
+
+```java
+@CreatedDate
+@Column(updatable = false)
+private LocalDateTime createdAt;
+
+@LastModifiedDate
+private LocalDateTime modifiedAt;
+```
+
+> 생성/수정 시간이 자동 기록됩니다.
+
+
+---
+
+
+## 🧾 예외 처리
+
+| 상황        | HTTP 코드           | 메시지                            |
+| --------- | ----------------- | ------------------------------ |
+| 일정 ID 없음  | `404 NOT_FOUND`   | 해당 ID의 일정이 없습니다.               |
+| 비밀번호 불일치  | `403 FORBIDDEN`   | 누구냐 넌!                         |
+| 댓글 10개 초과 | `400 BAD_REQUEST` | 일정 1개당 댓글은 최대 10개까지만 등록 가능합니다. |
+
+
+---
+
 
 ## 💬 Contact
 
-📧 Email: **[jeongha.dev@gmail.com](mailto:jeongha.dev@gmail.com)**
+📧 Email: **[jyop1212@naver.com](mailto:jeongha.dev@gmail.com)**
 💻 GitHub: [https://github.com/jyop1212hy/calendarApp](https://github.com/jyop1212hy/calendarApp)
 
 ---
-
-원하면 이 README에
-
-* 📸 Postman 테스트 스크린샷
-* 💾 ERD 이미지 (MySQL Workbench 캡처)
-* 🚀 실제 응답 JSON 예시
-
-까지 추가한 **비주얼 중심 포트폴리오 버전**도 만들어줄게 —
-그 버전으로 업그레이드할까?
