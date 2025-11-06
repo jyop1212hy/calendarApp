@@ -43,7 +43,7 @@ public class CalendarService {
     //단건 조회
     @Transactional(readOnly = true)
     public GetSingleCalendarResponse getCalendarById(Long id) {
-        Calendar calendar = calendarRepository.findById(id)
+        Calendar calendar = calendarRepository.findByIdWithComments(id)
                 .orElseThrow(() -> new IllegalStateException("해당 ID의 일정이 존재하지 않습니다.")
         );
         List<CommentResponse> commentResponses = calendar.getComments().stream()
